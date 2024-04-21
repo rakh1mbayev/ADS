@@ -1,6 +1,6 @@
 import java.util.Iterator;
 
-class MyLinkedList<T> implements MyList<T> {
+class MyLinkedList<T extends Comparable<T>> implements MyList<T> {
     private static class MyNode<T> {
         T data;
         MyNode<T> next;
@@ -140,9 +140,35 @@ class MyLinkedList<T> implements MyList<T> {
         size--;
     }
 
-    @Override
     public void sort() {
+        bubbleSort();
+    }
 
+    private void bubbleSort() {
+        boolean swapped;
+        do {
+            swapped = false;
+            MyNode<T> current = head;
+            MyNode<T> previous = null;
+            while (current != null && current.next != null) {
+                if (current.data.compareTo(current.next.data) > 0) {
+                    swap(current, current.next, previous);
+                    swapped = true;
+                }
+                previous = current;
+                current = current.next;
+            }
+        } while (swapped);
+    }
+
+    private void swap(MyNode<T> firstNode, MyNode<T> secondNode, MyNode<T> previousOfSecond) {
+        if (previousOfSecond != null) {
+            previousOfSecond.next = secondNode;
+        } else {
+            head = secondNode;
+        }
+        firstNode.next = secondNode.next;
+        secondNode.next = firstNode;
     }
 
     @Override
