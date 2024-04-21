@@ -1,6 +1,6 @@
 import java.util.Iterator;
 
-class MyArrayList<T> implements MyList<T> {
+class MyArrayList<T extends Comparable<T>> implements MyList<T> {
     private Object[] elements;
     private int size;
     private static final int DEFAULT_CAPACITY = 10;
@@ -79,7 +79,26 @@ class MyArrayList<T> implements MyList<T> {
 
     @Override
     public void sort() {
+        bubbleSort();
+    }
 
+    private void bubbleSort() {
+        boolean swapped;
+        do {
+            swapped = false;
+            for (int i = 1; i < size; i++) {
+                if (((T) elements[i - 1]).compareTo((T) elements[i]) > 0) {
+                    swap(i - 1, i);
+                    swapped = true;
+                }
+            }
+        } while (swapped);
+    }
+
+    private void swap(int i, int j) {
+        Object temp = elements[i];
+        elements[i] = elements[j];
+        elements[j] = temp;
     }
 
     @Override
