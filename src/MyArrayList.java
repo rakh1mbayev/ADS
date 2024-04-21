@@ -173,5 +173,4 @@ class MyArrayList<T extends Comparable<T>> implements MyList<T> {
         };
     }
 
-    // Implement other methods from MyList interface...
 }

@@ -80,17 +80,24 @@ class MyLinkedList<T> implements MyList<T> {
 
     @Override
     public T get(int index) {
-        return null;
+        MyNode<T> node = getNode(index);
+        return node.data;
     }
 
     @Override
     public T getFirst() {
-        return null;
+        if (head == null) {
+            throw new IndexOutOfBoundsException();
+        }
+        return head.data;
     }
 
     @Override
     public T getLast() {
-        return null;
+        if (tail == null) {
+            throw new IndexOutOfBoundsException();
+        }
+        return tail.data;
     }
 
     @Override
@@ -103,7 +110,7 @@ class MyLinkedList<T> implements MyList<T> {
         } else if (index == size - 1) {
             removeLast();
         } else {
-            MyNode<T> previous = getNode<T>(index - 1);
+            MyNode<T> previous = getNode(index - 1);
             previous.next = previous.next.next;
             size--;
         }
@@ -125,12 +132,12 @@ class MyLinkedList<T> implements MyList<T> {
     public void removeLast() {
         if (size <= 1) {
             removeFirst();
-        } else {
-            MyNode<T> previous = getNode(size - 2);
-            previous.next = null;
-            tail = previous;
-            size--;
+            return;
         }
+        MyNode<T> previous = getNode(size - 2);
+        previous.next = null;
+        tail = previous;
+        size--;
     }
 
     @Override
@@ -140,27 +147,53 @@ class MyLinkedList<T> implements MyList<T> {
 
     @Override
     public int indexOf(Object object) {
-        return 0;
+        int index = 0;
+        MyNode<T> current = head;
+        while(current != null) {
+            if (current.data.equals(object)) {
+                return index;
+            }
+            current = current.next;
+            index++;
+        }
+        return -1;
     }
 
     @Override
     public int lastIndexOf(Object object) {
-        return 0;
+        int index = size - 1;
+        MyNode<T> current = tail;
+        while (current != null) {
+            if (current.data.equals(object)) {
+                return index + 1;
+            }
+            current = getNode(index--);
+        }
+        return -1;
     }
 
     @Override
     public boolean exists(Object object) {
-        return false;
+        return indexOf(object) != -1;
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] array = new Object[size];
+        int index = 0;
+        MyNode<T> current = head;
+        while (current != null) {
+            array[index++] = current.data;
+            current = current.next;
+        }
+        return array;
     }
 
     @Override
     public void clear() {
         size = 0;
+        head = null;
+        tail = null;
     }
 
     @Override
@@ -200,5 +233,4 @@ class MyLinkedList<T> implements MyList<T> {
         }
         return current;
     }
-    // Implement other methods from MyList interface...
 }
