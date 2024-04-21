@@ -2,7 +2,7 @@ class MyStack<T extends Comparable<T>> {
     private MyArrayList<T> list;
 
     public MyStack() {
-        this.list = new MyArrayList<T>();
+        this.list = new MyArrayList<>();
     }
 
     public void push(T element) {
